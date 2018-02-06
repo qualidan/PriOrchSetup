@@ -28,14 +28,13 @@ def configure_app(pri_type,api, reservation_id, logger,apps,parallel, appConfigu
     try:
         if not parallel:
             for app in apps:
-
                 configuration_result = api.ConfigureApps(reservationId=reservation_id, printOutput=True,
                                                  appConfigurations=App(app).app_request.appConfiguration)
         else:
             app_configs=[]
             for app in apps:
                 app_configs.append(App(app).app_request.appConfiguration)
-            configuration_result = api.ConfigureApps(reservationId=reservation_id, printOutput=True, appConfigurations=appConfigurations)
+            configuration_result = api.ConfigureApps(reservationId=reservation_id, printOutput=True, appConfigurations=app_configs)
 
         if not configuration_result.ResultItems:
             api.WriteMessageToReservationOutput(reservation_id, 'No {} app/s to configure'.format(pri_type))
